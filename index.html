@@ -96,7 +96,7 @@ var parseHourMinutes = function(s) {
   var hourRollover = militaryTime ? 24 : 12;
 
   var d = moment({
-    h: h,
+    h: m[1],
     m: m[3]
   });
   
