@@ -146,8 +146,8 @@ angular.module('eggTimer',[])
       'background': trimBackground($scope.trimColor, $scope.progressPercentage)
     };
   };
-  
-  var updateProgress = function() {
+
+  var updateTimes = function() {
     var now = moment();
     now = now.startOf('second');
     $scope.now = now;
@@ -159,12 +159,30 @@ angular.module('eggTimer',[])
     timeLeft = timeLeft.utc();
     timeLeft = timeLeft.startOf('second');
     $scope.timeLeft = timeLeft;
+
+    var timeLeftDuration = $scope.timeLeft.duration();
+    var timeLeftFormatted;
+    if (timeLeftDuration.asHours() > 0) {
+      timeLeftFormatted = $scope.timeLeft.format('H:mm:ss');
+    } else if (timeLeftDuration.asMinutes() > 0) {
+      timeLeftFormatted = $scope.timeLeft.format('m:ss');
+    } else {
+      timeLeftFormatted = $scope.timeLeft.format('s');
+    }
+    $scope.timeLeftFormatted = timeLeftFormatted;
+  };
+  
+  var updateProgress = function() {
     
     var progressPercentage = $scope.progressed / $scope.totalDuration * 100;
     progressPercentage = progressPercentage > 100 ? 100 : progressPercentage;
     $scope.progressPercentage = progressPercentage;
     
     //var timeLeftHumanized = 
+  };
+
+  var updateTitle = function() {
+    document.title = $scope.timeLeftFormatted;
   };
   
   var beep = function() {
@@ -198,6 +216,8 @@ angular.module('eggTimer',[])
   $scope.totalDuration = $scope.endDate.diff($scope.startDate);
   
   $scope.update = function() {
+    updateTimes();
+    updateTitle();
     updateProgress();
     updateTrim();
     checkIfDone();
