@@ -162,9 +162,9 @@ angular.module('eggTimer',[])
 
     var timeLeftDuration = moment.duration($scope.timeLeft);
     var timeLeftFormatted;
-    if (timeLeftDuration.asHours() > 0) {
+    if (timeLeftDuration.asHours() >= 1) {
       timeLeftFormatted = $scope.timeLeft.format('H:mm:ss');
-    } else if (timeLeftDuration.asMinutes() > 0) {
+    } else if (timeLeftDuration.asMinutes() >= 1) {
       timeLeftFormatted = $scope.timeLeft.format('m:ss');
     } else {
       timeLeftFormatted = $scope.timeLeft.format('s');
