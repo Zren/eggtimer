@@ -9,7 +9,7 @@ Examples
 ### Countdown
 
 * `1m` [http://zren.github.io/eggtimer/?t=1m](http://zren.github.io/eggtimer/?t=1m)
-* `1min` [http://zren.github.io/eggtimer/?t=1m](http://zren.github.io/eggtimer/?t=1m)
+* `1min` [http://zren.github.io/eggtimer/?t=1min](http://zren.github.io/eggtimer/?t=1min)
 * `1m 45s` [http://zren.github.io/eggtimer/?t=1m+45s](http://zren.github.io/eggtimer/?t=1m+45s)
 * `1m45s` [http://zren.github.io/eggtimer/?t=1m45s](http://zren.github.io/eggtimer/?t=1m45s)
 * `1h30m` [http://zren.github.io/eggtimer/?t=1h30m](http://zren.github.io/eggtimer/?t=1h30m)
