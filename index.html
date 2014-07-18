@@ -1,0 +1,153 @@
+<html ng-app="eggTimer">
+  <head>
+    <title>Timer</title>
+  </head>
+  <body><!--
+ --><div ng-controller="app" id="app">
+      <div class="outer" ng-style="trimStyle">
+        <div class="inner">
+          <div class="startDate">
+            <time>{{startDate.format('HH:mm:ss')}}</time>
+          </div>
+          <div class="timeLeft">
+            <time>{{timeLeft.format('HH:mm:ss')}}</time>
+          </div>
+          <div class="endDate">
+            <time>{{endDate.format('HH:mm:ss')}}</time>
+          </div>
+        </div>
+      </div>
+      <audio id="beepAudio" style="display:none;" preload="auto" autobuffer>
+        <source src="http://e.ggtimer.com/styles/beepbeep.mp3" type="audio/mpeg">
+        <source src="http://e.ggtimer.com/styles/beepbeep.ogg" type="audio/ogg">
+      </audio>
+    </div>
+    
+    <!-- Javascripts -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular.min.js"></script>
+    <script>
+var hourMinuteRegex = /^([0-9]{1,2})(:|h)([0-9]{2})$/;
+
+var isHourMinutes = function(s) {
+  return hourMinuteRegex.exec(s);
+};
+
+var parseHourMinutes = function(s) {
+  var m = hourMinuteRegex.exec(s);
+  var d = moment({
+    h: m[1],
+    m: m[3]
+  });
+  
+  // Add 24 hours if we're talking about tomorrow.
+  if (d < moment())
+    d.add(24, 'h');
+  return d;
+}
+
+var parseDuration = function(s) {
+  var seconds = 0;
+  s.replace(/\s*,?(\d+)\s*(?:(d)(?:ays?)?|(h)(?:ours?)?|(m)(?:in(?:utes?)?)?)/g, function (m0, n, d, h, m) {
+    seconds += +n * (d ? 24 * 60 * 60 : h ? 60 * 60 : 60);
+    return m0; 
+  });
+  var d = moment().add(seconds, 's');
+  return d;
+};
+
+var parseTimeString = function(s) {
+  if (isHourMinutes(s)) {
+    return parseHourMinutes(s);
+  } else {
+    return parseDuration(s);
+  }
+};
+
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+angular.module('eggTimer',[])
+.controller('app',function($scope, $interval) {
+  window.$scope = $scope;
+  var trimBackground = function(trimColor, progress) {
+    var background = 'linear-gradient(90deg, ' + trimColor + ' 0, ' + trimColor + ' ' + progress + '%, transparent ' + progress + '%, transparent 100%)';
+    return background;
+  };
+  
+  var updateTrim = function() {
+    $scope.trimStyle = {
+      'background': trimBackground($scope.trimColor, $scope.progressPercentage)
+    };
+  };
+  
+  var updateProgress = function() {
+    var now = moment();
+    now = now.startOf('second');
+    $scope.now = now;
+    $scope.progressed = $scope.now.diff($scope.startDate);
+    var timeLeftDiff = $scope.endDate.diff($scope.now);
+    timeLeftDiff = timeLeftDiff < 0 ? 0 : timeLeftDiff;
+    $scope.timeLeftDiff = timeLeftDiff;
+    var timeLeft = moment($scope.timeLeftDiff);
+    timeLeft = timeLeft.utc();
+    timeLeft = timeLeft.startOf('second');
+    $scope.timeLeft = timeLeft;
+    
+    var progressPercentage = $scope.progressed / $scope.totalDuration * 100;
+    progressPercentage = progressPercentage > 100 ? 100 : progressPercentage;
+    $scope.progressPercentage = progressPercentage;
+    
+    //var timeLeftHumanized = 
+  };
+  
+  var beep = function() {
+    var beepAudio = document.getElementById('beepAudio');
+    beepAudio.play();
+  };
+  
+  var done = function() {
+    $scope.finished = true;
+    $interval.cancel($scope.timer);
+    
+    beep();
+    
+    console.log(beepAudio)
+    console.log('Done');
+  };
+  
+  var checkIfDone = function() {
+    if ($scope.now > $scope.endDate) {
+      done();
+    }
+  };
+  
+  var parseTime = function() {
+    
+  };
+  
+  $scope.trimColor = '#369';
+  $scope.startDate = moment();
+  $scope.endDate = parseTimeString(getParameterByName('t') || '5m');
+  $scope.totalDuration = $scope.endDate.diff($scope.startDate);
+  
+  $scope.update = function() {
+    updateProgress();
+    updateTrim();
+    checkIfDone();
+  };
+  
+  $scope.update();
+  
+  $scope.timer = $interval(
+    $scope.update
+  , 1000);
+})
+
+    </script>
+  </body>
+</html>
