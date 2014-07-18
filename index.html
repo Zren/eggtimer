@@ -94,12 +94,6 @@ var parseHourMinutes = function(s) {
   var m = hourMinuteRegex.exec(s);
   var militaryTime = m[2] == 'h';
   var hourRollover = militaryTime ? 24 : 12;
-  
-
-  // Add 12 hours if we're after noon.
-  var h = m[1];
-  if (!militaryTime && moment().hours() >= 12)
-    h += 12;
 
   var d = moment({
     h: h,
