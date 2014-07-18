@@ -34,4 +34,4 @@ Adding To Your Brower's Search Engine
 * Under `keyword` put `t` or `timer` or `eggtimer`
 * Under `Url with %s in place of...` put `http://zren.github.io/eggtimer/?t=%s`
 
-Now you can type `t`, then hit space, then type your input string.
+Now to start a timer, you can type `t` in the url bar, then hit space, then type your timer string.
