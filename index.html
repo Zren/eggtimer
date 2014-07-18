@@ -92,15 +92,18 @@ var isHourMinutes = function(s) {
 
 var parseHourMinutes = function(s) {
   var m = hourMinuteRegex.exec(s);
+  var militaryTime = m[2] == 'h';
+  var hourRollover = militaryTime ? 24 : 12;
   var d = moment({
     h: m[1],
     m: m[3]
   });
   
+
   // Add 12 hours if we're still in the past.
-  for (var i = 0; i < 2; i++)
+  for (var i = 0; i < 2; i++) // Only need once for military time, but meh.
     if (d < moment())
-      d.add(24, 'h');
+      d.add(hourRollover, 'h');
   return d;
 }
 
