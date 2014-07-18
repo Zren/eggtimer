@@ -97,9 +97,10 @@ var parseHourMinutes = function(s) {
     m: m[3]
   });
   
-  // Add 24 hours if we're talking about tomorrow.
-  if (d < moment())
-    d.add(24, 'h');
+  // Add 12 hours if we're still in the past.
+  for (var i = 0; i < 2; i++)
+    if (d < moment())
+      d.add(24, 'h');
   return d;
 }
 
