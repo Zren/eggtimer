@@ -1,6 +1,63 @@
 <html ng-app="eggTimer">
   <head>
     <title>Timer</title>
+    <link rel="stylesheet" href="http://s.codepen.io/assets/reset/reset.css">
+    <link rel="stylesheet prefetch" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <style>
+
+html, body,
+#app,
+.inner, .outer {
+  white-space:
+  width: 100%;
+  height: 100%;
+}
+
+.outer {
+  padding: 1em;
+  transition: background 0.5s ease;
+}
+
+.inner {
+  background: #fff;
+  position: relative;
+}
+
+
+.startDate,
+.timeLeft,
+.endDate {
+  display: block;
+  font-family: "Consolas";
+  text-align: center;
+  position: absolute;
+  width: 100%;
+}
+
+.startDate,
+.endDate {
+  font-size: 2em;
+  line-height: 2em;
+  color: #ccc;
+}
+
+.startDate {
+  top: 0;
+}
+
+.endDate {
+  bottom: 0;
+}
+
+.timeLeft {
+  font-size: 4em;
+  line-height: 4em;
+  color: #ccc;
+  top: 50%;
+  margin-top: -2em;
+  color: #333;
+}
+    </style>
   </head>
   <body><!--
  --><div ng-controller="app" id="app">
