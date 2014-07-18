@@ -160,7 +160,7 @@ angular.module('eggTimer',[])
     timeLeft = timeLeft.startOf('second');
     $scope.timeLeft = timeLeft;
 
-    var timeLeftDuration = $scope.timeLeft.duration();
+    var timeLeftDuration = moment.duration($scope.timeLeft);
     var timeLeftFormatted;
     if (timeLeftDuration.asHours() > 0) {
       timeLeftFormatted = $scope.timeLeft.format('H:mm:ss');
